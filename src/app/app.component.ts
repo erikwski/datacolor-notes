@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { WrapperComponent } from './shared/components/wrapper/wrapper.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
-  template: ` <button class="btn btn-primary">Primary</button> `,
-  styles: [],
+  imports: [WrapperComponent],
+  templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'datacolor-notes';
-}
+export class AppComponent {}

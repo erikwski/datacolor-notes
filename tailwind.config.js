@@ -17,8 +17,8 @@ module.exports = {
           warning: "#e2d562",
           error: "#ff6f6f",
         },
-        lofi: {
-          ...require("daisyui/src/theming/themes")["lofi"],
+        winter: {
+          ...require("daisyui/src/theming/themes")["winter"],
           primary: "#d7172f",
           "primary-focus": "#c0152a",
           "primary-content": "#ffffff",
