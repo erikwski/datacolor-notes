@@ -11,16 +11,22 @@ import { Theme } from '../../models/theme.model';
   imports: [IconComponent, SidebarComponent, ToggleThemeComponent],
   templateUrl: './wrapper.component.html',
   styles: `
+    // manage scroll inside the content
+    .drawer-content{
+      height: calc(100vh - 1rem);
+    }
+    @media (max-width: 1023px) { 
+      .drawer-content{
+        height: calc(100vh - 56px);
+      }
+    }
     // overflow 100vh cuz added padding to the main container and want to prevent the scroll
     @media (min-width: 1024px) { 
       .drawer-side{
         height: calc(100vh - 1rem);
       }
     }
-    // manage scroll inside the content
-    .drawer-content{
-      height: calc(100vh - 1rem);
-    }
+    
   `,
 })
 export class WrapperComponent {
