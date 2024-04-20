@@ -7,7 +7,7 @@ import { ThemeService } from '../../../services/theme.service';
   standalone: true,
   imports: [],
   template: `
-    <label class="swap swap-rotate absolute top-2 right-2">
+    <label class="swap swap-rotate absolute top-4 right-4">
       <input type="checkbox" class="theme-controller" (change)="setTheme()" />
       <svg
         class="swap-off fill-current w-10 h-10"

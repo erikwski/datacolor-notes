@@ -22,7 +22,7 @@ import { Theme } from '../../models/theme.model';
     }
     // overflow 100vh cuz added padding to the main container and want to prevent the scroll
     @media (min-width: 1024px) { 
-      .drawer-side{
+      .drawer-side, notes-sidebar{
         height: calc(100vh - 1rem);
       }
     }
