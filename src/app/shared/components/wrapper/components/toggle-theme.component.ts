@@ -10,7 +10,7 @@ import { ThemeService } from '../../../services/theme.service';
     <label class="swap swap-rotate absolute top-4 right-4">
       <input type="checkbox" class="theme-controller" (change)="setTheme()" />
       <svg
-        class="swap-off fill-current w-10 h-10"
+        class="swap-on fill-current w-10 h-10"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -19,7 +19,7 @@ import { ThemeService } from '../../../services/theme.service';
         />
       </svg>
       <svg
-        class="swap-on fill-current w-10 h-10"
+        class="swap-off fill-current w-10 h-10"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

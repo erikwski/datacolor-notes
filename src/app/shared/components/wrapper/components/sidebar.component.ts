@@ -6,7 +6,9 @@ import { IconComponent } from '../../icon.component';
   standalone: true,
   imports: [IconComponent],
   template: `
-    <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content relative">
+    <ul
+      class="menu p-4 w-60 md:w-80 min-h-full bg-base-200 text-base-content relative"
+    >
       <!-- NOTE LIST -->
       <li class="mb-2">
         <button class="btn btn-primary">

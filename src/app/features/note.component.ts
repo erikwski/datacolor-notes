@@ -1,26 +1,43 @@
 import { Component } from '@angular/core';
-import { onPasteOnEl } from '../shared/utils/onPaste';
+import { EditableComponent } from './components/editable.component';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'notes-note',
   standalone: true,
-  imports: [],
+  imports: [EditableComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './note.component.html',
+  styles: `
+  // Edit scrollbar only for pc, keep the default for mobile 
+    @media (hover: hover) {
+      *::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 2px;
+      }
+      *::-webkit-scrollbar-thumb { 
+        @apply bg-base-300;
+      }
+    }
+  `,
 })
 export class NoteComponent {
-  onPaste(e: any) {
-    e.preventDefault();
+  myForm: FormGroup;
 
-    const clipboardData = e.clipboardData || window.Clipboard;
-    const pastedText = clipboardData.getData('text/plain');
+  constructor(private fb: FormBuilder) {
+    this.myForm = this.fb.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required],
+      lastUpdate: [''],
+    });
 
-    // Do something with the pasted text, for example, log it to the console
-    console.log('Pasted text:', pastedText);
-
-    try {
-      onPasteOnEl(e.target, pastedText);
-    } catch (error) {
-      console.error("Errore nel parse del testo pre paste sull'input", error);
-    }
+    this.myForm.valueChanges.subscribe((res) => {
+      console.log(res);
+    });
   }
 }

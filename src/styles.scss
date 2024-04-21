@@ -2,4 +2,5 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./styles/_typography.scss";
+@import "./styles/typography";
+@import "./styles/customDrawer"

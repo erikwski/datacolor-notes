@@ -8,10 +8,5 @@ import { RouterOutlet } from '@angular/router';
   imports: [WrapperComponent, RouterOutlet],
 
   templateUrl: './app.component.html',
-  styles: `
-   #note-container{
-    height: calc(100% - 40px);
-  }
-  `,
 })
 export class AppComponent {}
