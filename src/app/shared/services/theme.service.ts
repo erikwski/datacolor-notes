@@ -5,13 +5,17 @@ import { Theme } from '../models/theme.model';
   providedIn: 'root',
 })
 export class ThemeService {
+  /** default theme of the app (dark) */
   defaultTheme = Theme.DIN;
+  /** theme actually active */
   private _activeTheme = this.defaultTheme;
 
+  /** getter for private activeTheme, use toggle method for change theme */
   get activeTheme(): Theme {
     return this._activeTheme;
   }
 
+  /** set dark theme if light is setted and vice versa  */
   toggle() {
     const HTML = document.querySelector('html');
     if (HTML) {

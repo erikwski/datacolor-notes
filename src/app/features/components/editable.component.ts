@@ -19,6 +19,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+/**
+ * @Description
+ * Editable element where the user can write as a textarea and reactive form compatible
+ */
 @Component({
   selector: 'notes-editable',
   standalone: true,
@@ -56,14 +60,20 @@ import {
   `,
 })
 export class EditableComponent implements AfterViewInit, ControlValueAccessor {
+  /** Viewchild to content written as contenteditable */
   @ViewChild('textContainer') textContainer!: ElementRef<HTMLElement>;
+  /** Text show if element is not focused and empty */
   @Input() placeholder: string = '';
   // Manage form component attributes
   @Input() value: any;
   @Output() valueChange = new EventEmitter<any>();
+  /** Is the element focus */
   inputFocus = false;
+  /** After the afterViewInit will be setted to true */
   isViewInit = false;
+  /** Get the first value from reactiveForm and set after the view init */
   startValueFromForm: string | null = null;
+  /** Change detection manually after the view init */
   cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
@@ -75,18 +85,22 @@ export class EditableComponent implements AfterViewInit, ControlValueAccessor {
     this.cdr.detectChanges();
   }
 
+  /** Get the text of the contenteditable using viewchild */
   get textContext() {
     return this.textContainer?.nativeElement.textContent ?? '';
   }
 
+  /** Return true if input is not in focus and is empty */
   showPlaceholder(): boolean {
     return !this.textContext.length && !this.inputFocus;
   }
 
+  /** keyup event use for update formControl value */
   inputKeyUp(e: KeyboardEvent) {
     this.updateText((e.target as HTMLElement)?.innerText || '');
   }
 
+  /** on paste, prevent the direct paste but parse the value for prevent HTML inside the contenteditable */
   onPaste(e: any) {
     e.preventDefault();
 

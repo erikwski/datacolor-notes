@@ -7,11 +7,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { TitleCasePipe } from '@angular/common';
 
+/**
+ * @Description
+ * Display the content of the loaded note.
+ * If the note doesn't exist redirect to the 404 page if the id have a value that doesn't exist.
+ */
 @Component({
   selector: 'notes-note',
   standalone: true,
-  imports: [EditableComponent, FormsModule, ReactiveFormsModule],
+  imports: [
+    EditableComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TitleCasePipe,
+  ],
   templateUrl: './note.component.html',
   styles: `
   // Edit scrollbar only for pc, keep the default for mobile 
@@ -27,16 +40,18 @@ import {
   `,
 })
 export class NoteComponent {
-  myForm: FormGroup;
+  /** contains id, title, content and lastUpdate of the note */
+  noteForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.myForm = this.fb.group({
+    this.noteForm = this.fb.group({
+      id: [0, Validators.required],
       title: ['', Validators.required],
       content: ['', Validators.required],
       lastUpdate: [''],
     });
 
-    this.myForm.valueChanges.subscribe((res) => {
+    this.noteForm.valueChanges.subscribe((res) => {
       console.log(res);
     });
   }

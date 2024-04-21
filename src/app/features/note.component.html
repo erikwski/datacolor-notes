@@ -1,5 +1,5 @@
-<form [formGroup]="myForm" class="flex flex-col h-full w-full overflow-y-auto pr-2">
-    <em class="opacity-40 mb-2">Modification date</em>
-    <notes-editable class="title-font text-5xl" placeholder="Inserisci il titolo..." formControlName="title"></notes-editable>
-    <notes-editable class="flex-auto" placeholder="Scrivi qui la tua nota..." formControlName="content"></notes-editable>
+<form [formGroup]="noteForm" class="flex flex-col h-full w-full overflow-y-auto pr-2">
+    <em class="opacity-40 mb-2">01/01/1970 20:04</em>
+    <notes-editable class="title-font text-5xl" [placeholder]="'_notes.insert-title' | translate | titlecase" formControlName="title"></notes-editable>
+    <notes-editable class="flex-auto" [placeholder]="'_notes.insert-content' | translate | titlecase" formControlName="content"></notes-editable>
 </form>

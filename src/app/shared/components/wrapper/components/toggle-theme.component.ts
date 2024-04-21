@@ -1,7 +1,10 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { Theme } from '../../../models/theme.model';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../services/theme.service';
 
+/**
+ * @Description
+ * Element fixed on the top-right part of the screen for change theme from dark to light and vice versa
+ */
 @Component({
   selector: 'notes-toggle-theme',
   standalone: true,
@@ -32,7 +35,7 @@ import { ThemeService } from '../../../services/theme.service';
 })
 export class ToggleThemeComponent {
   private themeService = inject(ThemeService);
-
+  /** set dark theme if light is setted and vice versa */
   setTheme() {
     this.themeService.toggle();
   }

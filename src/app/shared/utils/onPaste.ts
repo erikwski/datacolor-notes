@@ -1,5 +1,6 @@
-import { ElementRef } from "@angular/core";
+import { ElementRef } from '@angular/core';
 
+/** avoid to paste HTML in contentEditable and parse to only text */
 export const onPasteOnEl = (
   divElement: ElementRef<any>,
   pastedText: string
