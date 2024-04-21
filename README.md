@@ -1,27 +1,41 @@
 # DatacolorNotes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.5.
+## Requirements
 
-## Development server
+#### 1. Create a new Angular app
+- Components and styles could be created from scratch or you can use a UI library of choice
+#### 2. Allow user to create a new note
+- A note consists of a title, content, and modification date-time
+- New notes should automatically take the title “New Note” and the modification date should
+correspond to the creation datetime
+- A new note is automatically saved and selected after creation
+#### 3. Allow user to edit a note
+- User can edit both the title and the content of a note
+#### 4. Allow user to save changes to a note
+- Note without a title cannot be saved
+- After saving, the modification date must be updated
+#### 5. Display a list of notes
+- All the notes that are created should be displayed in a list
+- Clicking on a list item will select the corresponding note
+- Notes in the list should be sorted by date (most recent first)
+#### 6. Delete notes
+- Allow user to delete selected note
+- After deletion no note must be automatically selected
+#### 7. Filter the list of notes
+- Allow user to filter the list of notes typing part of the title
+- The filtered list must show all the notes whose title contains the search term
+- The list can be empty
+- Creating a new note will clear the filter
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Bonus Features
+- Include unit tests
+- Persist the state of the application (list of notes) across sessions
 
-## Code scaffolding
+## What i add
+- Use angular v17 with standalone components
+- Use signal(first time that i implement it)
+- Create the notes with contenteditable and manage it as an input (suggested approch from whatsapp web & other famouse website)
+- Internalization project with two lang that could change dinamically
+- Routing for notes and manage error if id is not existing
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Time for develop
