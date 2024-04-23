@@ -1,5 +1,5 @@
-<ul
-  class="menu p-4 w-60 md:w-80 min-h-full bg-base-200 text-base-content relative"
+<div
+  class="menu p-4 w-60 md:w-80 min-h-full h-full flex-nowrap bg-base-200 text-base-content relative"
 >
   <!-- NOTE LIST -->
   <notes-new-note class="mb-4"></notes-new-note>
@@ -20,27 +20,29 @@
       </svg>
     </label>
   </div>
-  <li
-    class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
-    *ngFor="let note of filteredList"
-  >
-    <a
-      routerLink="note/{{ note.id }}"
-      routerLinkActive="activeNote"
-      class="truncate relative duration-200 ease-in hide-child-icon"
-      [class.opacity-40]="!note.title"
-      *ngIf="note.id"
+  <ul class="overflow-y-auto mb-[60px]">
+    <li
+      class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
+      *ngFor="let note of filteredList"
     >
-      {{ note.title || '_notes.empty-title' | translate }}
-    </a>
-    <notes-icon
-      icon="delete"
-      class="hidden"
-      size="default"
-      (click)="deleteNote(note)"
-    />
-  </li>
-  <div id="empty-search" class="w-full border-primary rounded-xl" *ngIf="!filteredList.length && filterText.length">
+      <a
+        routerLink="note/{{ note.id }}"
+        routerLinkActive="activeNote"
+        class="truncate relative duration-200 ease-in hide-child-icon"
+        [class.opacity-40]="!note.title"
+        *ngIf="note.id"
+      >
+        {{ note.title || '_notes.empty-title' | translate }}
+      </a>
+      <notes-icon
+        icon="delete"
+        class="hidden"
+        size="default"
+        (click)="deleteNote(note)"
+      />
+    </li>
+  </ul>
+  <div id="empty-search" class="w-full border-primary rounded-xl -translate-y-[60px]" *ngIf="!filteredList.length && filterText.length">
     <div role="alert" class="alert bg-base-300">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
       <span class="truncate" [innerHTML]="'_search.empty-research' | translate : {text: filterText}"></span>
@@ -67,4 +69,4 @@
   <notes-language-theme
     class="absolute bottom-2 right-2"
   ></notes-language-theme>
-</ul>
+</div>
