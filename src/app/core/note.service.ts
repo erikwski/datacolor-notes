@@ -21,8 +21,25 @@ export class NoteService {
   /** Sidebar subscribe to this for update the value every changes */
   private notesSubject = new BehaviorSubject<Note[]>([]);
 
-  /** init the service with a map of notes and add some control if the value saved is not format correctly */
   constructor() {
+    this.initService();
+    // ! update list of the notes when navigate to a new note,
+    // ! didn't like the effect so i avoid to use it but that was a requirement so i let it here
+    // this.router.events
+    //   .pipe(filter((event) => event instanceof NavigationEnd))
+    //   .subscribe(() => {
+    //     // sort note every time that the navigation change
+    //     const notesList = Array.from(this.list.values());
+    //     this.list.clear();
+    //     for (let note of this.defaultSort(notesList)) {
+    //       this.list.set(note.id, note);
+    //     }
+    //     this.notesSubject.next(Array.from(this.list.values()));
+    //   });
+  }
+
+  /** init the service with a map of notes and add some control if the value saved is not format correctly */
+  initService() {
     let data: Note[];
     try {
       data = JSON.parse(this.server.getData(ServerKey.NOTES) ?? '') as Note[];
@@ -45,19 +62,6 @@ export class NoteService {
       console.warn(error);
     }
     this.saveChangesAndEmit();
-    // ! update list of the notes when navigate to a new note,
-    // ! didn't like the effect so i avoid to use it but that was a requirement so i let it here
-    // this.router.events
-    //   .pipe(filter((event) => event instanceof NavigationEnd))
-    //   .subscribe(() => {
-    //     // sort note every time that the navigation change
-    //     const notesList = Array.from(this.list.values());
-    //     this.list.clear();
-    //     for (let note of this.defaultSort(notesList)) {
-    //       this.list.set(note.id, note);
-    //     }
-    //     this.notesSubject.next(Array.from(this.list.values()));
-    //   });
   }
   /** cast the subject asObservable */
   list$(): Observable<Note[]> {
@@ -130,7 +134,7 @@ export class NoteService {
   }
 
   /** Create a unique id using timestamp */
-  private generateId(): number {
+  generateId(): number {
     return Date.now();
   }
 
