@@ -2,6 +2,10 @@
 
 > View the application here: [link](https://datacolor-notes.vercel.app/)
 
+> View the application in v17 here (**EXPERIMENTAL**): [link](https://datacolor-notes-v17.vercel.app/)
+
+> View Figma prototype here: [link](https://www.figma.com/file/bmFfMSSprUET6ZQPWPBOvf/DATACOLOR-WIREFRAME?type=design&node-id=0%3A1&mode=design&t=TCDLVRlhTOXWdNTT-1)
+
 ## Requirements
 
 #### 1. Create a new Angular app
@@ -56,10 +60,11 @@
 - Routing for notes and manage error if id is not existing
 - Customizing SVG based on the theme
 
-## Time for develop - TOTAL 12H 15MIN
+## Time for develop - TOTAL 12H 45MIN
 - Structure of the project: **3.5H**
 - Create the notes with contenteditable component: **2.5H**
 - Internalization + documented code: **1.75H**
 - Add and edit the note: **3H**
 - Notes sorted for lastUpdate + Deletable notes + 404 page - **2h**
 - Unit test on services - **30min**
+- Hotfix - **30min**
