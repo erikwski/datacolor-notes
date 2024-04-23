@@ -3,4 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 @import "./styles/typography";
-@import "./styles/customDrawer"
+@import "./styles/customDrawer";
+
+// expose primary variable in root for custom some component/svg
+:root {
+    --primary: theme('colors.primary');
+}
+
+.truncate {
+    @apply block text-ellipsis whitespace-nowrap overflow-hidden w-full;
+}

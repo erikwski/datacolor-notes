@@ -1,9 +1,14 @@
 <div class="drawer lg:drawer-open p-2">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
+    <input
+        id="toggle-menu"
+        type="checkbox"
+        class="drawer-toggle"
+        checked
+    >
     <div class="drawer-content flex flex-col">
         <!-- MOBILE TOGGLE -->
         <div class="flex justify-between px-2">
-            <label for="my-drawer-2" class="lg:hidden btn btn-square">
+            <label for="toggle-menu" class="lg:hidden btn btn-square">
                 <notes-icon icon="toggle"/>
             </label>
         </div>
@@ -11,7 +16,7 @@
         <ng-content></ng-content>
     </div>
     <div class="drawer-side">
-        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay z-40"></label>
+        <label for="toggle-menu" aria-label="close sidebar" class="drawer-overlay z-40"></label>
         <notes-sidebar [theme]="theme" class="h-full z-50"></notes-sidebar>
     </div>
     <notes-toggle-theme/>

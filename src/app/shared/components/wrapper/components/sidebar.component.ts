@@ -1,8 +1,18 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { IconComponent } from '../../icon.component';
 import { ToggleLanguageComponent } from './toggle-language.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
+import { Note } from '../../../models/note.model';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NoteService } from '../../../../core/note.service';
 /**
  * @Description
  * Sidebar that hold notes, the button for creating a new one, and in the footer logo of the company & change language
@@ -10,11 +20,17 @@ import { UpperCasePipe } from '@angular/common';
 @Component({
   selector: 'notes-sidebar',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IconComponent,
     ToggleLanguageComponent,
     TranslateModule,
     UpperCasePipe,
+    NgFor,
+    AsyncPipe,
+    NgIf,
+    RouterLink,
+    RouterLinkActive,
   ],
   template: `
     <ul
@@ -22,13 +38,22 @@ import { UpperCasePipe } from '@angular/common';
     >
       <!-- NOTE LIST -->
       <li class="mb-2">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" (click)="addNote()">
           <notes-icon icon="write" size="sm" class="mr-2" />
           {{ '_notes.add' | translate | uppercase }}
         </button>
       </li>
-      <li><a>Sidebar Item 1</a></li>
-      <li><a>Sidebar Item 2</a></li>
+      <li class="w-[90%] mx-auto" *ngFor="let note of noteList">
+        <a
+          routerLink="note/{{ note.id }}"
+          routerLinkActive="bg-primary text-white hover:bg-primary"
+          class="truncate"
+          [class.opacity-40]="!note.title"
+          *ngIf="note.id"
+        >
+          {{ note.title || '_notes.empty-title' | translate }}
+        </a>
+      </li>
       <!-- END NOTE LIST -->
       <a href="https://www.datacolor.com/">
         <img
@@ -47,9 +72,34 @@ import { UpperCasePipe } from '@angular/common';
       ></notes-language-theme>
     </ul>
   `,
-  styles: ``,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   /** setted theme for render company logo in dark mode or light*/
   @Input({ required: true }) theme!: string;
+
+  /** service for persintency */
+  private noteService = inject(NoteService);
+
+  /** service for persintency */
+  private cdr = inject(ChangeDetectorRef);
+
+  /** list update every update on noteList subject */
+  noteList: Note[] = [];
+
+  /** service for persintency */
+  private router = inject(Router);
+
+  /** Every change on noteList in the NoteService update the list of notes and trigger change detection  */
+  ngOnInit(): void {
+    this.noteService.list$().subscribe((list) => {
+      this.noteList = list;
+      this.cdr.detectChanges();
+    });
+  }
+
+  /** create new notes and render it on the sidebar */
+  addNote() {
+    const note = this.noteService.createNotes();
+    this.router.navigateByUrl('note/' + note.id);
+  }
 }

@@ -10,7 +10,6 @@ module.exports = {
         dim: {
           ...require("daisyui/src/theming/themes")["dim"],
           primary: "#d7172f",
-          "primary-focus": "#c0152a",
           "primary-content": "#ffffff",
           info: "#66c6ff",
           success: "#87d039",
@@ -20,7 +19,6 @@ module.exports = {
         winter: {
           ...require("daisyui/src/theming/themes")["winter"],
           primary: "#d7172f",
-          "primary-focus": "#c0152a",
           "primary-content": "#ffffff",
           info: "#66c6ff",
           success: "#87d039",

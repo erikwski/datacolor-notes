@@ -49,7 +49,7 @@ import {
     </div>
     <span
       *ngIf="isViewInit && showPlaceholder()"
-      class="absolute top-0 left-1 opacity-40 -z-10 block text-ellipsis whitespace-nowrap overflow-hidden w-full"
+      class="absolute top-0 left-1 opacity-40 -z-10 truncate"
       >{{ placeholder }}
     </span>
   `,
