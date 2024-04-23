@@ -20,37 +20,42 @@
       </svg>
     </label>
   </div>
-  <li
-    class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
-    *ngFor="let note of filteredList"
-  >
-    <a
-      routerLink="note/{{ note.id }}"
-      routerLinkActive="activeNote"
-      class="truncate relative duration-200 ease-in hide-child-icon"
-      [class.opacity-40]="!note.title"
-      *ngIf="note.id"
+  @for (note of filteredList; track note.id) {
+    <li
+      class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
     >
-      {{ note.title || '_notes.empty-title' | translate }}
-    </a>
-    <notes-icon
-      icon="delete"
-      class="hidden"
-      size="default"
-      (click)="deleteNote(note)"
-    />
-  </li>
-  <div id="empty-search" class="w-full border-primary rounded-xl" *ngIf="!filteredList.length">
-    <div role="alert" class="alert bg-base-300">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <span class="truncate" [innerHTML]="'_search.empty-research' | translate : {text: filterText}"></span>
-      <div class="tooltip tooltip-bottom" [attr.data-tip]="'_search.reset' | translate">
-        <button class="btn btn-sm btn-primary" (click)="filterText = ''">
-          <notes-icon icon="cancel" size="sm" />
-        </button>
+      <a
+        routerLink="note/{{ note.id }}"
+        routerLinkActive="activeNote"
+        class="truncate relative duration-200 ease-in hide-child-icon"
+        [class.opacity-40]="!note.title"
+      >
+        {{ note.title || '_notes.empty-title' | translate }}
+      </a>
+      <notes-icon
+        icon="delete"
+        class="hidden"
+        size="default"
+        (click)="deleteNote(note)"
+      />
+    </li>
+  } @empty {
+    @if(filterText.length){
+      <div id="empty-search" class="w-full border-primary rounded-xl">
+        <div role="alert" class="alert bg-base-300">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="truncate" [innerHTML]="'_search.empty-research' | translate : {text: filterText}"></span>
+          <div class="tooltip tooltip-bottom" [attr.data-tip]="'_search.reset' | translate">
+            <button class="btn btn-sm btn-primary" (click)="filterText = ''">
+              <notes-icon icon="cancel" size="sm" />
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    }
+  }
+  
+  
   <!-- END NOTE LIST -->
   <a href="https://www.datacolor.com/">
     <img

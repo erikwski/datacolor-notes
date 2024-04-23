@@ -50,11 +50,11 @@ import {
     >
       <ng-content></ng-content>
     </div>
-    <span
-      *ngIf="isViewInit && showPlaceholder()"
-      class="absolute top-0 left-1 opacity-40 -z-10 truncate"
+    @if(isViewInit && showPlaceholder()){
+    <span class="absolute top-0 left-1 opacity-40 -z-10 truncate"
       >{{ placeholder }}
     </span>
+    }
   `,
   styles: `
     :host{
