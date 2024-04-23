@@ -1,5 +1,7 @@
 # DatacolorNotes
 
+> View the application here: [link](https://datacolor-notes.vercel.app/)
+
 ## Requirements
 
 #### 1. Create a new Angular app
@@ -47,11 +49,17 @@
 
 ## What i add
 
-- Use angular v17 with standalone components
-- Use signal(first time that i implement it)
+- Use angular v17 with standalone components (first time that i implement it)
+- Use signal and angular 17 new structural directive (check v17 branch, first time that i implement it)
 - Create the notes with contenteditable and manage it as an input (suggested approch from whatsapp web & other famouse website)
 - Internalization project with two lang that could change dinamically
 - Routing for notes and manage error if id is not existing
 - Customizing SVG based on the theme
 
-## Time for develop
+## Time for develop - TOTAL 12H 15MIN
+- Structure of the project: **3.5H**
+- Create the notes with contenteditable component: **2.5H**
+- Internalization + documented code: **1.75H**
+- Add and edit the note: **3H**
+- Notes sorted for lastUpdate + Deletable notes + 404 page - **2h**
+- Unit test on services - **30min**
