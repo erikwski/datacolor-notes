@@ -3,6 +3,7 @@ import { FakeBackendService } from './fake-backend.service';
 import { Note } from '../shared/models/note.model';
 import { ServerKey } from '../shared/models/server-key.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class NoteService {
   /** FakeBackendService instance */
   private server = inject(FakeBackendService);
+  /** ngx-translate service for translation */
+  private translateService = inject(TranslateService);
   /** Map used for call the getData only one time and update the list with O(log n) complexity */
   public list = new Map<number, Note>();
   /** Sidebar subscribe to this for update the value every changes */
@@ -84,7 +87,7 @@ export class NoteService {
   get newNote(): Note {
     return {
       id: this.generateId(),
-      title: '',
+      title: this.translateService.instant('_notes.new-title'),
       content: '',
       lastUpdate: Date.now(),
     };

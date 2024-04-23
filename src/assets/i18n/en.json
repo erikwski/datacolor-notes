@@ -3,6 +3,7 @@
     "add": "new note",
     "insert-title": "Write the title...",
     "insert-content": "Insert here your note...",
-    "empty-title": "No title"
+    "empty-title": "No title",
+    "new-title": "New Note"
   }
 }

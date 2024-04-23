@@ -29,14 +29,8 @@ export class ToggleLanguageComponent {
   constructor(
     private translateService: TranslateService,
     private server: FakeBackendService
-  ) {
-    //retrieve the preferred language, if no exist english will be setted
-    const language =
-      this.server.getData(ServerKey.LANGUAGE) ?? Language.ENGLISH;
-    translateService.setDefaultLang(language);
+  ) {}
 
-    translateService.use(language);
-  }
   /** return current language setted for translation */
   get currentLang() {
     return this.translateService.currentLang;
