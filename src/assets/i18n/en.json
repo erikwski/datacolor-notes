@@ -16,5 +16,10 @@
     "eliminated-desc": "Create a new one or edit an one",
     "title": "Note not found",
     "desc": "The note that you are trying to load not exist anymore but you can create a new one"
+  },
+  "_search": {
+    "placeholder": "Search",
+    "empty-research": "No notes with the text <strong class='truncate'>{{text}}</strong>",
+    "reset": "Reset search"
   }
 }

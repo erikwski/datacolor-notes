@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IconComponent } from '../icon.component';
 import { ThemeService } from '../../services/theme.service';
-import { SidebarComponent } from './components/sidebar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ToggleThemeComponent } from './components/toggle-theme.component';
 
 /**

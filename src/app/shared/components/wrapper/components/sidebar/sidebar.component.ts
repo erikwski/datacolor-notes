@@ -6,14 +6,21 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { IconComponent } from '../../icon.component';
-import { ToggleLanguageComponent } from './toggle-language.component';
+import { IconComponent } from '../../../icon.component';
+import { ToggleLanguageComponent } from '../toggle-language.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
-import { Note } from '../../../models/note.model';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { NoteService } from '../../../../core/note.service';
-import { NewNoteComponent } from '../../new-note.component';
+import { Note } from '../../../../models/note.model';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
+import { NoteService } from '../../../../../core/note.service';
+import { NewNoteComponent } from '../../../new-note.component';
+import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 /**
  * @Description
  * Sidebar that hold notes, the button for creating a new one, and in the footer logo of the company & change language
@@ -32,51 +39,9 @@ import { NewNoteComponent } from '../../new-note.component';
     RouterLink,
     RouterLinkActive,
     NewNoteComponent,
+    FormsModule,
   ],
-  template: `
-    <ul
-      class="menu p-4 w-60 md:w-80 min-h-full bg-base-200 text-base-content relative"
-    >
-      <!-- NOTE LIST -->
-      <notes-new-note class="mb-2"></notes-new-note>
-      <li
-        class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
-        *ngFor="let note of noteList"
-      >
-        <a
-          routerLink="note/{{ note.id }}"
-          routerLinkActive="activeNote"
-          class="truncate relative duration-200 ease-in hide-child-icon"
-          [class.opacity-40]="!note.title"
-          *ngIf="note.id"
-        >
-          {{ note.title || '_notes.empty-title' | translate }}
-        </a>
-        <notes-icon
-          icon="delete"
-          class="hidden"
-          size="default"
-          (click)="deleteNote(note)"
-        />
-      </li>
-      <!-- END NOTE LIST -->
-      <a href="https://www.datacolor.com/">
-        <img
-          class="absolute bottom-2 opacity-40 duration-300 ease-in-out hover:opacity-100 hover:scale-110"
-          [style.width.%]="50"
-          [src]="
-            theme === 'din'
-              ? 'assets/images/darkLogo.png'
-              : 'assets/images/logo.png'
-          "
-          alt="logo"
-        />
-      </a>
-      <notes-language-theme
-        class="absolute bottom-2 right-2"
-      ></notes-language-theme>
-    </ul>
-  `,
+  templateUrl: './sidebar.component.html',
   styles: `
     .activeNote{
       @apply bg-primary text-white hover:bg-primary translate-x-[5%] w-[90%];
@@ -97,6 +62,9 @@ export class SidebarComponent implements OnInit {
   /** service for persintency */
   private cdr = inject(ChangeDetectorRef);
 
+  /** value for filter the list of notes */
+  filterText = '';
+
   /** list update every update on noteList subject */
   noteList: Note[] = [];
 
@@ -109,6 +77,24 @@ export class SidebarComponent implements OnInit {
       this.noteList = list;
       this.cdr.detectChanges();
     });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        // When navigate to a new router, clear text filter.
+        // Trigger change detection cuz maybe the navigation is triggered by another components
+        this.filterText = '';
+        this.cdr.detectChanges();
+      });
+  }
+
+  /**
+   * Return the notes that container filterText value
+   */
+  get filteredList(): Note[] {
+    return this.noteList.filter((item) =>
+      item.title.toLowerCase().includes(this.filterText.toLowerCase())
+    );
   }
 
   /**
