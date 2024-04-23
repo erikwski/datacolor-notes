@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EditableComponent } from './components/editable.component';
 import {
   FormBuilder,
@@ -8,12 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { DatePipe, NgIf, TitleCasePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FakeBackendService } from '../core/fake-backend.service';
 import { ServerKey } from '../shared/models/server-key.model';
 import { Note } from '../shared/models/note.model';
 import { NoteService } from '../core/note.service';
+import { whitespaceValidator } from './validators/white-space.validator';
+import { filter } from 'rxjs';
 
 /**
  * @Description
@@ -31,22 +33,11 @@ import { NoteService } from '../core/note.service';
     TitleCasePipe,
     NgIf,
     DatePipe,
+    UpperCasePipe,
   ],
   templateUrl: './note.component.html',
-  styles: `
-  // Edit scrollbar only for pc, keep the default for mobile 
-    @media (hover: hover) {
-      *::-webkit-scrollbar {
-        -webkit-appearance: none;
-        width: 2px;
-      }
-      *::-webkit-scrollbar-thumb { 
-        @apply bg-base-300;
-      }
-    }
-  `,
 })
-export class NoteComponent {
+export class NoteComponent implements OnInit {
   /** contains id, title, content and lastUpdate of the note */
   noteForm: FormGroup;
 
@@ -58,20 +49,32 @@ export class NoteComponent {
   ) {
     this.noteForm = this.fb.group({
       id: [null, Validators.required],
-      title: ['', Validators.required],
-      content: ['', Validators.required],
+      title: ['', Validators.required, whitespaceValidator],
+      content: [''],
       lastUpdate: [null],
     });
+  }
+
+  ngOnInit() {
     this.routeParam.params.subscribe((params) => {
-      let note = this.server.getNote(+params['noteId']);
-      if (!note) {
-        note = this.server.createNotes();
+      const noteId = +params['noteId'];
+      let note: Note | undefined;
+      if (noteId == 0) {
+        note = this.server.createNote();
         this.router.navigateByUrl('note/' + note.id);
+        return;
       }
-      this.initForm(note);
-      this.noteForm.valueChanges.subscribe((res: Note) => {
-        this.server.updateNotes(res, true);
-      });
+      note = this.server.getNote(noteId);
+      if (note) {
+        this.initForm(note);
+        this.noteForm.valueChanges.subscribe((res: Note) => {
+          //Update only if valid (title have a value and note have an id)
+          if (this.noteForm.valid) this.server.updateNotes(res, true);
+        });
+      } else {
+        // note that the user want to load doesn't exist anymore
+        this.router.navigateByUrl('/404');
+      }
     });
   }
   /**
@@ -87,7 +90,12 @@ export class NoteComponent {
     return this.noteForm.controls['id'].value;
   }
 
-  /** return if need to render a note or notes are not selected */
+  /** return the value of the form for the title */
+  get title() {
+    return this.noteForm.controls['title'].value;
+  }
+
+  /** return the value of the form for the lastUpdate */
   get lastUpdateNote() {
     return this.noteForm.controls['lastUpdate'].value;
   }

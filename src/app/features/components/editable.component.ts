@@ -36,7 +36,10 @@ import {
   ],
   template: `
     <div
-      class="outline-none mb-4 h-full"
+      class="content-editable content-editable-{{
+        scrollable && 'scrollable'
+      }} outline-none mb-4 h-full"
+      [class.overflow-y-auto]="scrollable"
       (paste)="onPaste($event)"
       (keyup)="inputKeyUp($event)"
       contenteditable="true"
@@ -56,6 +59,10 @@ import {
   styles: `
     :host{
       @apply relative;
+
+      .content-editable.content-editable-scrollable{
+        @apply max-h-[2em] pr-2;
+      }
     }
   `,
 })
@@ -64,8 +71,14 @@ export class EditableComponent implements AfterViewInit, ControlValueAccessor {
   @ViewChild('textContainer') textContainer!: ElementRef<HTMLElement>;
   /** Text show if element is not focused and empty */
   @Input() placeholder: string = '';
+  /** Set a max-height and after the div will be scrollable */
+  @Input() scrollable = false;
+  /** When rendered, get the focus of the page */
+  @Input() focusOnViewInit = false;
   // Manage form component attributes
   @Input() value: any;
+  /** maxLength of the text, if null the limit will not be setted */
+  @Input() maxLength: number | null = null;
   @Output() valueChange = new EventEmitter<any>();
   /** Is the element focus */
   inputFocus = false;
@@ -81,6 +94,16 @@ export class EditableComponent implements AfterViewInit, ControlValueAccessor {
     if (this.startValueFromForm) {
       this.writeValue(this.startValueFromForm);
       this.startValueFromForm = null;
+    }
+    if (this.focusOnViewInit) {
+      // Set the cursor at the end of the content and focus
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(this.textContainer.nativeElement);
+      range.collapse(false); // Set the range to the end
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      this.textContainer.nativeElement.focus();
     }
     this.cdr.detectChanges();
   }
@@ -110,7 +133,7 @@ export class EditableComponent implements AfterViewInit, ControlValueAccessor {
     try {
       onPasteOnEl(e.target, pastedText);
     } catch (error) {
-      console.error("Errore nel parse del testo pre paste sull'input", error);
+      console.error('Error on parse the pasted text', error);
     }
   }
 

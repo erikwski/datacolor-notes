@@ -5,5 +5,16 @@
     "insert-content": "Insert here your note...",
     "empty-title": "No title",
     "new-title": "New Note"
+  },
+  "_alert": {
+    "warning": "warning",
+    "error": "error",
+    "no-title": "the notes won't be saved again until you insert a title"
+  },
+  "_404": {
+    "eliminated-title": "Your note is been eliminated",
+    "eliminated-desc": "Create a new one or edit an one",
+    "title": "Note not found",
+    "desc": "The note that you are trying to load not exist anymore but you can create a new one"
   }
 }

@@ -13,3 +13,17 @@
 .truncate {
     @apply block text-ellipsis whitespace-nowrap overflow-hidden w-full;
 }
+
+// Every item that can overflow update the scrollbar style only on Desktop
+.overflow-y-auto {
+    @media (hover: hover) {
+        &::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 2px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @apply bg-base-300;
+        }
+    }
+}

@@ -9,10 +9,11 @@ import {
 import { IconComponent } from '../../icon.component';
 import { ToggleLanguageComponent } from './toggle-language.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { AsyncPipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
+import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { Note } from '../../../models/note.model';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NoteService } from '../../../../core/note.service';
+import { NewNoteComponent } from '../../new-note.component';
 /**
  * @Description
  * Sidebar that hold notes, the button for creating a new one, and in the footer logo of the company & change language
@@ -27,32 +28,36 @@ import { NoteService } from '../../../../core/note.service';
     TranslateModule,
     UpperCasePipe,
     NgFor,
-    AsyncPipe,
     NgIf,
     RouterLink,
     RouterLinkActive,
+    NewNoteComponent,
   ],
   template: `
     <ul
       class="menu p-4 w-60 md:w-80 min-h-full bg-base-200 text-base-content relative"
     >
       <!-- NOTE LIST -->
-      <li class="mb-2">
-        <button class="btn btn-primary" (click)="addNote()">
-          <notes-icon icon="write" size="sm" class="mr-2" />
-          {{ '_notes.add' | translate | uppercase }}
-        </button>
-      </li>
-      <li class="w-[90%] mx-auto" *ngFor="let note of noteList">
+      <notes-new-note class="mb-2"></notes-new-note>
+      <li
+        class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
+        *ngFor="let note of noteList"
+      >
         <a
           routerLink="note/{{ note.id }}"
-          routerLinkActive="bg-primary text-white hover:bg-primary"
-          class="truncate"
+          routerLinkActive="activeNote"
+          class="truncate relative duration-200 ease-in hide-child-icon"
           [class.opacity-40]="!note.title"
           *ngIf="note.id"
         >
           {{ note.title || '_notes.empty-title' | translate }}
         </a>
+        <notes-icon
+          icon="delete"
+          class="hidden"
+          size="default"
+          (click)="deleteNote(note)"
+        />
       </li>
       <!-- END NOTE LIST -->
       <a href="https://www.datacolor.com/">
@@ -71,6 +76,15 @@ import { NoteService } from '../../../../core/note.service';
         class="absolute bottom-2 right-2"
       ></notes-language-theme>
     </ul>
+  `,
+  styles: `
+    .activeNote{
+      @apply bg-primary text-white hover:bg-primary translate-x-[5%] w-[90%];
+
+      & ~ notes-icon{
+        display: block;
+      }
+    }
   `,
 })
 export class SidebarComponent implements OnInit {
@@ -97,9 +111,16 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  /** create new notes and render it on the sidebar */
-  addNote() {
-    const note = this.noteService.createNotes();
-    this.router.navigateByUrl('note/' + note.id);
+  /**
+   * delete the notes and go to eliminated page
+   * @param {Note} note the note that need to be eliminated
+   */
+  deleteNote(note: Note) {
+    this.noteService.removeNote(note);
+    this.router.navigateByUrl('/404', {
+      state: {
+        isEliminated: true,
+      },
+    });
   }
 }
