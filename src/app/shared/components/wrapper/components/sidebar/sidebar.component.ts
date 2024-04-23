@@ -84,6 +84,9 @@ export class SidebarComponent implements OnInit {
         // When navigate to a new router, clear text filter.
         // Trigger change detection cuz maybe the navigation is triggered by another components
         this.filterText = '';
+        /** If mobile, close the sidebar before navigate */
+        const menu = document.getElementById('toggle-menu') as HTMLInputElement;
+        if (menu) menu.checked = false;
         this.cdr.detectChanges();
       });
   }

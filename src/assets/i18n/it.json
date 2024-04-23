@@ -2,6 +2,24 @@
   "_notes": {
     "add": "nuova nota",
     "insert-title": "Scrivi il titolo...",
-    "insert-content": "Scrivi qui la tua nota..."
+    "insert-content": "Scrivi qui la tua nota...",
+    "empty-title": "Inserisci titolo",
+    "new-title": "Titolo nota"
+  },
+  "_alert": {
+    "warning": "attenzione",
+    "error": "errore",
+    "no-title": "non sará possibile salvare la nota finché non verrá inserito un titolo"
+  },
+  "_404": {
+    "eliminated-title": "La tua nota é stata eliminata",
+    "eliminated-desc": "Creane una nuova oppure modificane una esistente",
+    "title": "Nota non trovata",
+    "desc": "La nota che stai provando a caricare non esiste piú ma puoi crearne una nuova"
+  },
+  "_search": {
+    "placeholder": "Cerca",
+    "empty-research": "Zero risultati con <strong class='truncate'>{{text}}</strong>",
+    "reset": "Azzera ricerca"
   }
 }
