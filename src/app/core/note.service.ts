@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FakeBackendService } from './fake-backend.service';
 import { Note } from '../shared/models/note.model';
 import { ServerKey } from '../shared/models/server-key.model';
-import { BehaviorSubject, Observable, Subject, filter } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',

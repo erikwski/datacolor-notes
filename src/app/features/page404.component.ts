@@ -1,6 +1,6 @@
 import { NgIf, UpperCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IconComponent } from '../shared/components/icon.component';
 

@@ -9,13 +9,10 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { DatePipe, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { FakeBackendService } from '../core/fake-backend.service';
-import { ServerKey } from '../shared/models/server-key.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Note } from '../shared/models/note.model';
 import { NoteService } from '../core/note.service';
 import { whitespaceValidator } from './validators/white-space.validator';
-import { filter } from 'rxjs';
 
 /**
  * @Description

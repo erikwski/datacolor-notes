@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Note } from '../shared/models/note.model';
-import { ServerKey } from '../shared/models/server-key.model';
 
 /**
  * @Description
