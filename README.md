@@ -1,7 +1,9 @@
 # DatacolorNotes
 
+> View the application in v17 here (**EXPERIMENTAL**): [link](https://datacolor-notes-v17.vercel.app/)
+
 > View the application here: [link](https://datacolor-notes.vercel.app/)
-> View the application in v17 here: [link](https://datacolor-notes-v17.vercel.app/)
+
 > View Figma prototype here: [link](https://www.figma.com/file/bmFfMSSprUET6ZQPWPBOvf/DATACOLOR-WIREFRAME?type=design&node-id=0%3A1&mode=design&t=TCDLVRlhTOXWdNTT-1)
 
 ## Requirements
