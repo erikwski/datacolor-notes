@@ -42,17 +42,19 @@
       </li>
     } @empty {
       @if(filterText.length){
-        <div id="empty-search" class="w-full border-primary rounded-xl">
-          <div role="alert" class="alert bg-base-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span class="truncate" [innerHTML]="'_search.empty-research' | translate : {text: filterText}"></span>
-            <div class="tooltip tooltip-bottom" [attr.data-tip]="'_search.reset' | translate">
-              <button class="btn btn-sm btn-primary" (click)="filterText = ''">
-                <notes-icon icon="cancel" size="sm" />
-              </button>
+        <li class="w-full flex justify-between items-center flex-row flex-nowrap">
+          <div id="empty-search" class="w-full border-primary rounded-xl">
+            <div role="alert" class="alert bg-base-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span class="truncate" [innerHTML]="'_search.empty-research' | translate : {text: filterText}"></span>
+              <div class="tooltip tooltip-bottom" [attr.data-tip]="'_search.reset' | translate">
+                <button class="btn btn-sm btn-primary" (click)="filterText = ''">
+                  <notes-icon icon="cancel" size="sm" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </li>
       }
     }
   </ul>
