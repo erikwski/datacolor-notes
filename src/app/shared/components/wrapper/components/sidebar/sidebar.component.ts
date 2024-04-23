@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   OnInit,
+  computed,
+  effect,
   inject,
 } from '@angular/core';
 import { IconComponent } from '../../../icon.component';
@@ -62,6 +64,13 @@ export class SidebarComponent implements OnInit {
   /** service for persintency */
   private cdr = inject(ChangeDetectorRef);
 
+  constructor() {
+    effect(() => {
+      this.noteList = this.noteService.notesList();
+      this.cdr.detectChanges();
+    });
+  }
+
   /** value for filter the list of notes */
   filterText = '';
 
@@ -73,11 +82,6 @@ export class SidebarComponent implements OnInit {
 
   /** Every change on noteList in the NoteService update the list of notes and trigger change detection  */
   ngOnInit(): void {
-    this.noteService.list$().subscribe((list) => {
-      this.noteList = list;
-      this.cdr.detectChanges();
-    });
-
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {

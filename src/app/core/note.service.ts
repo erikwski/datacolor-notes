@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, effect, inject, signal } from '@angular/core';
 import { FakeBackendService } from './fake-backend.service';
 import { Note } from '../shared/models/note.model';
 import { ServerKey } from '../shared/models/server-key.model';
@@ -16,13 +16,12 @@ export class NoteService {
   private translateService = inject(TranslateService);
   /** router for intercept navigation */
   private router = inject(Router);
-  /** Map used for call the getData only one time and update the list with O(log n) complexity */
-  public list = new Map<number, Note>();
-  /** Sidebar subscribe to this for update the value every changes */
-  private notesSubject = new BehaviorSubject<Note[]>([]);
+  /** Signal that contains the list of all notes*/
+  notesList = signal<Note[]>([]);
 
   constructor() {
     this.initService();
+    effect(() => this.saveChangesAndEmit(this.notesList()));
     // ! update list of the notes when navigate to a new note,
     // ! didn't like the effect so i avoid to use it but that was a requirement so i let it here
     // this.router.events
@@ -56,41 +55,31 @@ export class NoteService {
           )
         )
           throw new Error('Invalid interface');
-        this.list.set(val.id, val);
+        this.notesList.update((notes) => [...notes, val]);
       });
     } catch (error) {
       console.warn(error);
     }
-    this.saveChangesAndEmit();
   }
-  /** cast the subject asObservable */
-  list$(): Observable<Note[]> {
-    return this.notesSubject.asObservable();
-  }
+
   /** return the Note using id
    * @param {string} id the id of the note that we want to load
    */
-  getNote(id: number) {
-    return this.list.get(id);
+  getNote(id: number): Note | undefined {
+    return this.notesList().find((note) => note.id === id);
   }
 
   /** create new empty note */
   createNote() {
     const note = this.newNote;
     // reorder notes list to append it as first element (most recent)
-    let oldList = Array.from(this.list.values());
-    this.list.clear();
-    oldList.unshift(note);
-    oldList.forEach((note) => this.list.set(note.id, note));
-
-    this.saveChangesAndEmit();
+    this.notesList.update((notes) => [note, ...notes]);
     return note;
   }
 
   /** delete a note */
   removeNote(note: Note) {
-    this.list.delete(note.id);
-    this.saveChangesAndEmit();
+    this.notesList.update((notes) => notes.filter((n) => n.id != note.id));
   }
 
   /**
@@ -99,7 +88,7 @@ export class NoteService {
    * @param {boolean} updateDate if true, the lastUpdateDate of the note will be updated
    * */
   updateNotes(note: Note, updateDate = false) {
-    const oldNote = this.list.get(note.id);
+    const oldNote = this.getNote(note.id);
     // avoid call if title and content aren't change
     // (when the noteComponent are already loaded and navigate to the new Note update the form and trigger update)
     if (
@@ -109,19 +98,20 @@ export class NoteService {
     ) {
       return;
     }
-    if (!note.id) note.id = this.generateId();
+
+    if (!note.id) {
+      note.id = this.generateId();
+    }
     if (updateDate) note.lastUpdate = Date.now();
-    this.list.set(note.id, note);
-    this.saveChangesAndEmit();
+
+    this.notesList.update((notes) => {
+      return notes.map((n) => (n.id === note.id ? note : n));
+    });
   }
 
   /** call this function every change that need to be saved and update the Subject  */
-  saveChangesAndEmit() {
-    this.server.saveData(
-      ServerKey.NOTES,
-      JSON.stringify(Array.from(this.list.values()))
-    );
-    this.notesSubject.next(Array.from(this.list.values()));
+  saveChangesAndEmit(notes: Note[]) {
+    this.server.saveData(ServerKey.NOTES, JSON.stringify(notes));
   }
 
   /**
