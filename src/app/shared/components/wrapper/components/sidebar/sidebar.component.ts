@@ -11,7 +11,7 @@ import {
 import { IconComponent } from '../../../icon.component';
 import { ToggleLanguageComponent } from '../toggle-language.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { Note } from '../../../../models/note.model';
 import {
   NavigationEnd,
@@ -36,6 +36,7 @@ import { filter } from 'rxjs';
     ToggleLanguageComponent,
     TranslateModule,
     UpperCasePipe,
+    DatePipe,
     NgFor,
     NgIf,
     RouterLink,
