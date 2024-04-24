@@ -22,17 +22,18 @@
   </div>
   <ul class="overflow-y-auto mb-[60px]">
     <li
-      class="w-[90%] flex justify-between items-center flex-row flex-nowrap"
+      class="w-[90%] flex justify-between items-center flex-row flex-nowrap mb-1"
       *ngFor="let note of filteredList"
     >
       <a
         routerLink="note/{{ note.id }}"
         routerLinkActive="activeNote"
-        class="truncate relative duration-200 ease-in hide-child-icon"
+        class="relative duration-200 ease-in flex flex-col items-start w-full gap-0"
         [class.opacity-40]="!note.title"
         *ngIf="note.id"
       >
-        {{ note.title || '_notes.empty-title' | translate }}
+        <span class="truncate text-lg">{{ note.title || '_notes.empty-title' | translate }}</span>
+        <span class="text-sm opacity-50">{{ note.lastUpdate | date :'dd/MM/yy HH:mm' }}</span>
       </a>
       <notes-icon
         icon="delete"
