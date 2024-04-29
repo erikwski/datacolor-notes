@@ -24,6 +24,17 @@ import { Language } from '../../../models/language.model';
       </div>
     </label>
   `,
+  styles: `
+    .swap-on{
+      opacity: 0;
+      z-index: -1;
+    }
+
+    // override swap-off style
+    .swap input:checked ~ .swap-off{
+      opacity: 1;
+    }
+  `
 })
 export class ToggleLanguageComponent {
   constructor(
